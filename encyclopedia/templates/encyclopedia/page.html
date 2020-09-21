@@ -1,0 +1,17 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    {% if page in entries %}
+        {{ page }}
+    {% else %}
+        Page not found
+    {% endif %}    
+{% endblock %}
+
+{% block body %}
+    {% if page in entries %}
+        {{ content }}
+    {% else %}
+        {{ page_error.html }}
+    {% endif %}
+{% endblock %}
