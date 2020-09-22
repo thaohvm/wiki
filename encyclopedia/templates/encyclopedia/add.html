@@ -1,0 +1,19 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+New Encyclopedia
+{% endblock %}
+
+{% block body %}
+<h1>New Encyclopedia</h1>
+    <div class="title">
+        <form action="{% url 'add' %}" method="post">
+            <p1>Title</p1>
+            <input type="text">
+            <p2>Content</p2>
+            <textarea id="w3review" name="w3review" rows="4" cols="10"></textarea>  
+            <input type="submit">
+        </form>
+    </div> 
+        
+{% endblock %}
