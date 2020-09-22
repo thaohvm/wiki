@@ -33,24 +33,24 @@ def search(request):
         return HttpResponseNotFound("Page not found")
 
 
-def add(request):
-    return render(request, "encyclopedia/add.html", {
-        "add": add,
-    })
-
-
 # def add(request):
-#     if request.method == "POST":
-#         form = NewTaskForm(request.POST)
-#         if form.is_valid():
-#             new = form.cleaned_data["task"]
-#             request.session["entries"] += [entries]
-#             return HttpResponseRedirect(reverse("index"))
-#         else:
-#             return render(request, "encyclopedia/add.html", {
-#                 "form": form
-#             })
-#     else:
-#         return render(request, "encyclopedia/add.html", {
-#             "form": NewTaskForm()
-#         })
+#     return render(request, "encyclopedia/add.html", {
+#         "add": add,
+#     })
+
+
+def add(request):
+    if request.method == "POST":
+        form = NewForm(request.POST)
+        if form.is_valid():
+            new = form.cleaned_data["new"]
+            request.session["new"] += [new]
+            return HttpResponseRedirect(reverse("index"))
+        else:
+            return render(request, "encyclopedia/add.html", {
+                "form": form
+            })
+    else:
+        return render(request, "encyclopedia/add.html", {
+            "form": NewForm()
+        })
