@@ -10,12 +10,8 @@ New Encyclopedia
         <form action="{% url 'add' %}" method="post">
             {% csrf_token %}
             {{ form }}
-            <p1>Content</p1>
-            <textarea id="w3review" name="w3review" rows="4" cols="10"></textarea>  
             <input type="submit"> 
         </form> 
-
-  
     </div> 
         
 {% endblock %}
