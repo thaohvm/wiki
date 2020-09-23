@@ -1,16 +1,22 @@
 from django import forms
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.core.exceptions import ValidationError
 from django.http import HttpResponse, HttpResponseNotFound, Http404, HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse
 
 from . import util
 
 
 class NewForm(forms.Form):
-    title = forms.CharField(label="Title")
+    class TitleField(forms.CharField):
+        def validate(self, value):
+            super().validate(value)
+            if value in util.list_entries():
+                raise ValidationError(f"ERROR: Title {value} already exists!")
+
+    title = TitleField(label="Title")
     content = forms.CharField(
-        label="Content", widget=forms.Textarea(attrs={'rows': 4, 'cols': 15}))
+        label="Content", widget=forms.Textarea())
 
 
 def index(request):
