@@ -15,8 +15,7 @@ class NewForm(forms.Form):
                 raise ValidationError(f"ERROR: Title {value} already exists!")
 
     title = TitleField(label="Title")
-    content = forms.CharField(
-        label="Content", widget=forms.Textarea())
+    content = forms.CharField(label="Content", widget=forms.Textarea())
 
 
 def index(request):
@@ -48,9 +47,8 @@ def add(request):
     if request.method == "POST":
         form = NewForm(request.POST)
         if form.is_valid():
-            util.save_entry(
-                form.cleaned_data["title"], form.cleaned_data["content"])
-            return HttpResponseRedirect(reverse("index"))
+            util.save_entry(form.cleaned_data["title"], form.cleaned_data["content"])
+            return HttpResponseRedirect(reverse("add"))
         else:
             return render(request, "encyclopedia/add.html", {
                 "form": form
