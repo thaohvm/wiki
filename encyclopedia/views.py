@@ -18,6 +18,11 @@ class NewForm(forms.Form):
     content = forms.CharField(label="Content", widget=forms.Textarea())
 
 
+class EditForm(forms.Form):
+    title = forms.CharField(label="Title")
+    content = forms.CharField(label="Content", widget=forms.Textarea())
+
+
 def index(request):
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()
@@ -47,7 +52,8 @@ def add(request):
     if request.method == "POST":
         form = NewForm(request.POST)
         if form.is_valid():
-            util.save_entry(form.cleaned_data["title"], form.cleaned_data["content"])
+            util.save_entry(
+                form.cleaned_data["title"], form.cleaned_data["content"])
             return HttpResponseRedirect(reverse("add"))
         else:
             return render(request, "encyclopedia/add.html", {
@@ -57,3 +63,19 @@ def add(request):
         return render(request, "encyclopedia/add.html", {
             "form": NewForm()
         })
+
+
+def edit(request, page):
+    if request.method == "POST":
+        form = EditForm(request.POST)
+        if form.is_valid():
+            util.save_entry(
+                form.cleaned_data["title"], form.cleaned_data["content"])
+            return HttpResponseRedirect(reverse("page", args=[page]))
+
+    return render(request, "encyclopedia/edit.html", {
+        "page": page,
+        "form": EditForm(
+            {'title': page, "content": util.get_entry(page), }
+        )
+    })
