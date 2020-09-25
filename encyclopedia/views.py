@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseNotFound, Http404, HttpRespons
 from django.shortcuts import render
 from django.urls import reverse
 from django.shortcuts import redirect
+from markdown2 import markdown
 from random import choice
 
 from . import util
@@ -35,7 +36,7 @@ def page(request, page):
     if page in util.list_entries():
         return render(request, "encyclopedia/page.html", {
             "page": page,
-            "content": util.get_entry(page),
+            "content": markdown(util.get_entry(page)),
             "entries": util.list_entries()
         })
     else:
