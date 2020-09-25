@@ -3,6 +3,8 @@ from django.core.exceptions import ValidationError
 from django.http import HttpResponse, HttpResponseNotFound, Http404, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.shortcuts import redirect
+from random import choice
 
 from . import util
 
@@ -79,3 +81,9 @@ def edit(request, page):
             {'title': page, "content": util.get_entry(page), }
         )
     })
+
+
+def random(request):
+    entries = util.list_entries()
+    selected_page = choice(entries)
+    return HttpResponseRedirect(reverse("page", args=[selected_page]))
