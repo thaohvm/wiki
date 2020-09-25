@@ -48,6 +48,11 @@ def search(request):
     if page in util.list_entries():
         return HttpResponseRedirect("wiki/" + page)
     else:
+        if any([page in entry for entry in util.list_entries()]):
+            entries = [entry for entry in util.list_entries() if page in entry]
+            return render(request, "encyclopedia/index.html", {
+                "entries": entries
+            })
         return HttpResponseNotFound("Page not found")
 
 
